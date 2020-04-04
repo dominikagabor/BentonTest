@@ -29,14 +29,12 @@ def index():
                 countEmailDB = row[0]
 
             if countEmailDB != 0:
- 
                 cur = mysql.connect().cursor()
                 cur.execute("SELECT email FROM login where email = " + "'" + email + "'")
                 emailsDB = cur.fetchall()
                 for row in emailsDB:
                     emailDB = row[0]
 
-                           
                 cur = mysql.connect().cursor()
                 cur.execute("SELECT password FROM login where password = " + "'" + password + "'")
                 passwordDB = cur.fetchall()
@@ -45,13 +43,13 @@ def index():
                     print("Password db: " + str(passwordDB))
 
                 if str(emailDB) == email and str(passwordDB) == password:
-                    return "Logowanie zakończone powodzeniem"
+                     return render_template("main.html")
                 if str(emailDB) != email or str(passwordDB) != password:
-                    return "Nieprawidłowy login lub hasło"
+                    return render_template("app.html", loginMessage = 'Nieprawidłowy login lub hasło')
             else:
-                return "Nieprawidłowy login lub hasło"
+                return render_template("app.html", loginMessage = 'Nieprawidłowy login lub hasło')
           
-        return render_template("app.html")
+        return render_template("app.html", loginMessage = '')
     except Exception as e:
         return str(e)
 
